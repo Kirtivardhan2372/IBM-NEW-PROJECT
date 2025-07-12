@@ -1,0 +1,130 @@
+#define led_1 11
+#define led_2 3
+#define led_3 9
+#define led_4 10
+const int trig_1 = 8, echo_1 = 2, trig_2=5, echo_2=4, trig_3=7, echo_3=6;
+
+void ultra_sonic_1()
+{
+    //int trig = 8;
+    //int echo = 2;
+    unsigned long duration;
+    float distance, _time, _speed = 0.034;
+
+    digitalWrite(trig_1, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trig_1,HIGH);
+    delayMicroseconds(5);
+    digitalWrite(trig_1,LOW);
+
+    duration = pulseIn(echo_1, HIGH);
+    _time = duration / 2;  
+    distance = _speed*_time;
+    //Serial.println(distance);
+    if(distance < 200)
+    {
+      digitalWrite(led_1, HIGH);
+      digitalWrite(led_2, HIGH);
+    }
+    else
+    {
+      digitalWrite(led_1,LOW);
+      //digitalWrite(led_2,LOW);
+    }   
+}
+
+void ultra_sonic_2()
+{
+    unsigned long duration;
+    float distance, _time, _speed = 0.034;
+    
+
+    digitalWrite(trig_2, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trig_2,HIGH);
+    delayMicroseconds(5);
+    digitalWrite(trig_2,LOW);
+
+    duration = pulseIn(echo_2, HIGH);
+    _time = duration / 2;  
+    distance = _speed*_time;
+    //Serial.println(distance);
+
+    if(distance < 200)
+    {
+      digitalWrite(led_2, HIGH);
+      digitalWrite(led_3, HIGH);
+    }
+    else
+    {
+      
+        digitalWrite(led_2,LOW);
+      //digitalWrite(led_3,LOW);
+    }
+}
+
+void ultra_sonic_3()
+{
+    unsigned long duration;
+    float distance, _time, _speed = 0.034;
+    //const int trig = 7;
+    //const int echo = 6;
+
+    digitalWrite(trig_3, LOW);
+    delayMicroseconds(2);
+    digitalWrite(trig_3,HIGH);
+    delayMicroseconds(5);
+    digitalWrite(trig_3,LOW);
+
+    duration = pulseIn(echo_3, HIGH);
+    _time = duration / 2;  
+    distance = _speed*_time;
+    //Serial.println(distance);
+
+    if(distance < 200)
+    {
+      digitalWrite(led_3, HIGH);
+      digitalWrite(led_4, HIGH);
+    }
+    else
+    {
+        digitalWrite(led_3,LOW);
+        digitalWrite(led_4,LOW);
+    }
+    
+}
+
+void setup()
+{
+  // put your setup code here, to run once:
+      Serial.begin(9600);
+      pinMode(led_1,OUTPUT);
+      pinMode(led_2,OUTPUT);
+      pinMode(led_3,OUTPUT);
+      pinMode(led_4,OUTPUT);
+      pinMode(trig_1, OUTPUT);
+      pinMode(echo_1,INPUT);
+      pinMode(trig_2,OUTPUT);
+      pinMode(echo_2,INPUT);
+      pinMode(trig_3,OUTPUT);   
+      pinMode(echo_3,INPUT); 
+}
+
+void loop() 
+{
+  // put your main code here, to run repeatedly:
+     Serial.println(analogRead(A0));
+     if(analogRead(A0)>800)
+     {
+       ultra_sonic_1();
+       ultra_sonic_2();
+       ultra_sonic_3();
+     }
+     else
+     {
+         digitalWrite(led_1,LOW);
+         digitalWrite(led_2,LOW);
+         digitalWrite(led_3,LOW);
+         digitalWrite(led_4,LOW);
+     }
+}
